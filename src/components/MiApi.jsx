@@ -1,0 +1,85 @@
+import { useEffect, useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Table from 'react-bootstrap/Table';
+import Image from "react-bootstrap/Image";
+import Button from "react-bootstrap/Button";
+
+const MiApi = () => {
+
+    const [aves, setAves] = useState([]);
+    const [busqueda, setBusqueda] = useState("");
+    const [lista, setLista] = useState([]);
+
+    useEffect(() => {
+        const apiAves = async () => {
+            const data = await fetch("https://aves.ninjas.cl/api/birds"); //API PUBLICA 100% DISPONIBLE SIN REGISTRO
+            const dataAves = await data.json();
+            setAves(dataAves);
+            setLista(dataAves);
+        };
+        apiAves();
+    }, []);
+
+    //FUNCION DE BUSQUEDA
+    const nuevaBusqueda = (e) => {
+        setBusqueda(e.target.value);
+        filtro(e.target.value);
+    };
+
+    //FUNCION FILTRO DEVUELVE LA INFO PARA LA BUSQUEDA
+    const filtro = (value) => {
+        let resultadoBusqueda = lista.filter((e) => {
+            if (e.name.spanish.toString().toLowerCase().includes(value.toLowerCase())) {
+                return e;
+            }
+        });
+        setAves(resultadoBusqueda);
+    };
+
+    //FUNCIONES PARA ORDENAR
+    const ordenaNombre = () => {
+        const ordenaAves = [...aves].sort((a, b) =>
+            a.name.spanish > b.name.spanish ? 1 : -1
+        );
+        setAves(ordenaAves);
+    };
+
+    const ordenaId = () => {
+        const ordenaAves = [...aves].sort((a, b) =>
+            a.uid > b.uid ? 1 : -1
+        );
+        setAves(ordenaAves);
+    };
+
+
+
+    return (
+        <div className="contenedor">
+            <h1>Buscador de Aves Chilenas</h1>
+            <input className="form-control" value={busqueda} placeholder="Escriba el nombre a buscar..." onChange={nuevaBusqueda} />
+            <hr />
+            <h1>Listado de Aves</h1>
+
+            <Table striped bordered hover variant="info">
+                <thead>
+                    <tr className="encabezados">
+                        <th>IMAGEN</th>
+                        <th>NOMBRE <Button variant="primary" size="sm" onClick={ordenaNombre}>A-Z</Button></th>
+                        <th>ID <Button variant="primary" size="sm" onClick={ordenaId}>A-Z</Button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {aves.map((ave) => (
+                        <tr className="contenido" key={ave.uid}>
+                            <td className="imagenes"><Image src={ave.images.main} /></td>
+                            <td>{ave.name.spanish}</td>
+                            <td>{ave.uid}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </div>
+    );
+};
+
+export default MiApi;

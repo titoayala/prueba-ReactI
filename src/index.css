@@ -5,9 +5,38 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#root{
+  display: flex;
+  justify-content: center;
+}
+
+.contenedor{
+  margin-top: 2%;
+  width: 50%;
+  align-items: center;
+}
+
+.encabezados{
+  text-align: center;
+  font-size: larger;
+}
+
+.contenido{
+  vertical-align: middle;
+}
+
+img{
+  width: 50px;
+}
+
+.imagenes{
+  text-align: center;
 }
