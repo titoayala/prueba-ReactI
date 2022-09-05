@@ -6,19 +6,18 @@ import Button from "react-bootstrap/Button";
 
 const MiApi = () => {
 
+    //DEFINICION DE MIS ESTADOS
     const [aves, setAves] = useState([]);
     const [busqueda, setBusqueda] = useState("");
     const [lista, setLista] = useState([]);
 
-    useEffect(() => {
-        const apiAves = async () => {
-            const data = await fetch("https://aves.ninjas.cl/api/birds"); //API PUBLICA 100% DISPONIBLE SIN REGISTRO
-            const dataAves = await data.json();
-            setAves(dataAves);
-            setLista(dataAves);
-        };
-        apiAves();
-    }, []);
+    //FUNCION PARA CONSUMO DE LA API
+    const apiAves = async () => {
+        const data = await fetch("https://aves.ninjas.cl/api/birds"); //API PUBLICA 100% DISPONIBLE SIN REGISTRO
+        const dataAves = await data.json();
+        setAves(dataAves);
+        setLista(dataAves);
+    };
 
     //FUNCION DE BUSQUEDA
     const nuevaBusqueda = (e) => {
@@ -51,6 +50,11 @@ const MiApi = () => {
         setAves(ordenaAves);
     };
 
+    useEffect(() => {
+        apiAves(); //LLAMADO A LA FUNCION DE CONSUMO DE LA API
+    }, []); // ARREGLO DE DEPENDECIAS VACIO
+
+    //RENDER CON EVENTOS ONCHANGE Y ONCLICK
     return (
         <div className="contenedor">
             <h1>Buscador de Aves Chilenas</h1>
@@ -66,7 +70,7 @@ const MiApi = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {aves.map((ave) => (
+                    {aves.map((ave) => ( //RECORRIDO DEL ARREGLO PARA MOSTRAR LOS DATOS SETEADOS
                         <tr className="contenido" key={ave.uid}>
                             <td className="imagenes"><Image src={ave.images.main} /></td>
                             <td>{ave.name.spanish}</td>
