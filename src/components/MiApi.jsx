@@ -27,9 +27,9 @@ const MiApi = () => {
     };
 
     //FUNCION FILTRO DEVUELVE LA INFO PARA LA BUSQUEDA
-    const filtro = (value) => {
+    const filtro = (valor) => {
         let resultadoBusqueda = lista.filter((e) => {
-            if (e.name.spanish.toString().toLowerCase().includes(value.toLowerCase())) {
+            if (e.name.spanish.toString().toLowerCase().includes(valor.toLowerCase())) {
                 return e;
             }
         });
@@ -39,7 +39,7 @@ const MiApi = () => {
     //FUNCIONES PARA ORDENAR
     const ordenaNombre = () => {
         const ordenaAves = [...aves].sort((a, b) =>
-            a.name.spanish > b.name.spanish ? 1 : -1
+            a.name.spanish > b.name.spanish ? 1 : -1 //OPERADOR TERNARIO PARA ORDENAR EL ARREGLO SEGUN FUNCION DE COMPARACION.
         );
         setAves(ordenaAves);
     };
@@ -51,15 +51,12 @@ const MiApi = () => {
         setAves(ordenaAves);
     };
 
-
-
     return (
         <div className="contenedor">
             <h1>Buscador de Aves Chilenas</h1>
-            <input className="form-control" value={busqueda} placeholder="Escriba el nombre a buscar..." onChange={nuevaBusqueda} />
+            <input className="form-control" value={busqueda} placeholder="Escriba el nombre del ave a buscar..." onChange={nuevaBusqueda} />
             <hr />
             <h1>Listado de Aves</h1>
-
             <Table striped bordered hover variant="info">
                 <thead>
                     <tr className="encabezados">
